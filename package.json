@@ -1,0 +1,32 @@
+{
+  "name": "flow-render",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Render components in async flows — make your UI awaitable.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flow-render/flow-render"
+  },
+  "author": "shixianqin",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest --run && cd ./packages/solid && vitest --run"
+  },
+  "devDependencies": {
+    "@braveforge/eslint-config": "0.0.28",
+    "@changesets/cli": "^2.29.7",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.10.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260225.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^9.39.4",
+    "fast-glob": "^3.3.3",
+    "jsdom": "^28.1.0",
+    "tsup": "^8.5.1",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}

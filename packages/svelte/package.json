@@ -1,0 +1,33 @@
+{
+  "name": "@flow-render/svelte",
+  "version": "0.1.0",
+  "description": "Render Svelte components in async flows — make your UI awaitable",
+  "homepage": "https://github.com/flow-render/flow-render/tree/main/packages/svelte",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flow-render/flow-render.git"
+  },
+  "author": "shixianqin",
+  "sideEffects": false,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "public"
+  ],
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@flow-render/shared": "workspace:*",
+    "@flow-render/svelte": "workspace:*",
+    "@flow-render/test-utils": "workspace:*",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@testing-library/svelte": "^5.3.1",
+    "svelte": "^5.46.0"
+  },
+  "peerDependencies": {
+    "svelte": "^5"
+  }
+}

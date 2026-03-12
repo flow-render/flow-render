@@ -1,0 +1,31 @@
+{
+  "name": "@flow-render/preact",
+  "version": "0.1.0",
+  "description": "Render Preact components in async flows — make your UI awaitable",
+  "homepage": "https://github.com/flow-render/flow-render/tree/main/packages/preact",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flow-render/flow-render.git"
+  },
+  "author": "shixianqin",
+  "sideEffects": false,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@flow-render/shared": "workspace:*",
+    "@flow-render/test-utils": "workspace:*",
+    "@preact/preset-vite": "^2.10.3",
+    "@testing-library/preact": "^3.2.4",
+    "preact": "^10.28.4"
+  },
+  "peerDependencies": {
+    "preact": "^10"
+  }
+}

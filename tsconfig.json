@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": true
+  }
+}
