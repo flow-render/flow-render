@@ -2,6 +2,13 @@
   "name": "@flow-render/vue",
   "version": "0.1.0",
   "description": "Render Vue components in async flows — make your UI awaitable",
+  "keywords": [
+    "vue",
+    "flow-render",
+    "async-await",
+    "promise",
+    "flow"
+  ],
   "homepage": "https://github.com/flow-render/flow-render/tree/main/packages/vue",
   "repository": {
     "type": "git",

@@ -2,6 +2,13 @@
   "name": "@flow-render/preact",
   "version": "0.1.0",
   "description": "Render Preact components in async flows — make your UI awaitable",
+  "keywords": [
+    "preact",
+    "flow-render",
+    "async-await",
+    "promise",
+    "flow"
+  ],
   "homepage": "https://github.com/flow-render/flow-render/tree/main/packages/preact",
   "repository": {
     "type": "git",

@@ -2,6 +2,13 @@
   "name": "@flow-render/react",
   "version": "0.1.0",
   "description": "Render React components in async flows — make your UI awaitable",
+  "keywords": [
+    "react",
+    "flow-render",
+    "async-await",
+    "promise",
+    "flow"
+  ],
   "homepage": "https://github.com/flow-render/flow-render/tree/main/packages/react",
   "repository": {
     "type": "git",
