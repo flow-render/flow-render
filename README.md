@@ -1,3 +1,5 @@
+<div align="center"><img src="assets/logo.svg" width="200"></div>
+
 # Flow Render
 
 English | [中文](./README-zh.md)
