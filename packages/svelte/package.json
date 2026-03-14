@@ -1,6 +1,6 @@
 {
   "name": "@flow-render/svelte",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Render Svelte components in async flows — make your UI awaitable",
   "keywords": [
     "svelte",
