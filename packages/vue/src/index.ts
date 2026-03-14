@@ -1,5 +1,5 @@
-import { renderToPromise, resetStore, type ResolveValue, type StoreBase } from '@flow-render/shared';
-import { h, onUnmounted, shallowRef, type Component, type VNode } from 'vue';
+import { mountStore, renderToPromise, unmountStore, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import { h, onMounted, onUnmounted, shallowRef, type Component, type VNode } from 'vue';
 import type { RenderArgs } from './types';
 
 export { isCancelError, type PromiseResolvers } from '@flow-render/shared';
@@ -8,6 +8,7 @@ export type RenderFunction = <T extends object, V = ResolveValue<T>> (type: Comp
 
 class Store<T> implements StoreBase<T> {
   ref = shallowRef<T[]>([]);
+  count = 0;
 
   get () {
     return this.ref.value;
@@ -39,8 +40,12 @@ export function createRenderer (): [render: RenderFunction, Viewport: Component]
     {
       name: 'Viewport',
       setup () {
+        onMounted(() => {
+          mountStore(store);
+        });
+
         onUnmounted(() => {
-          resetStore(store);
+          unmountStore(store);
         });
 
         return () => store.get();

@@ -1,4 +1,4 @@
-import { renderToPromise, resetStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import { mountStore, renderToPromise, unmountStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
 import { h, type ComponentType, type FunctionComponent, type VNode } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
@@ -9,13 +9,15 @@ export type RenderFunction = <P extends object, V = ResolveValue<P>> (type: Comp
 class Store<T> implements StoreBase<T> {
   fns = new Set<(nodes: T[]) => void>();
   nodes: T[] = [];
+  count = 0;
 
   sub (fn: (nodes: T[]) => void) {
     this.fns.add(fn);
+    mountStore(this);
 
     return () => {
       this.fns.delete(fn);
-      resetStore(this);
+      unmountStore(this);
     };
   }
 

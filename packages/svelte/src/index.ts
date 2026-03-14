@@ -1,7 +1,6 @@
 import { renderToPromise, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
-import { resetStore } from '@flow-render/shared';
+import { mountStore, unmountStore } from '@flow-render/shared';
 import type { Component } from 'svelte';
-import { get, writable } from 'svelte/store';
 // Since Svelte does not provide a stable component runtime API,
 // Viewport need to be implemented using `.svelte` files.
 import viewportRender from '../components/viewport.svelte';
@@ -17,14 +16,30 @@ interface Node {
 }
 
 class Store<T> implements StoreBase<T> {
-  nodes = writable<T[]>([]);
+  subs = new Set<(nodes: T[]) => void>();
+  nodes: T[] = [];
+  count = 0;
+
+  sub (fn: (nodes: T[]) => void) {
+    this.subs.add(fn);
+    mountStore(this);
+
+    return () => {
+      this.subs.delete(fn);
+      unmountStore(this);
+    };
+  }
 
   get () {
-    return get(this.nodes);
+    return this.nodes;
   }
 
   set (nodes: T[]) {
-    this.nodes.set(nodes);
+    this.nodes = nodes;
+
+    for (const sub of this.subs) {
+      sub(nodes);
+    }
   }
 }
 
@@ -46,7 +61,7 @@ export function createRenderer (): [render: RenderFunction, Viewport: Component<
     },
 
     function Viewport (anchor) {
-      return viewportRender(anchor, { store, resetStore });
+      return viewportRender(anchor, { store });
     },
   ];
 }

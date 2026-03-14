@@ -1,18 +1,25 @@
 import { cancelByNode } from './cancel';
 
 export interface StoreBase<T> {
+  count: number;
   get: () => T[];
   set: (nodes: T[]) => void;
 }
 
-export function resetStore (store: StoreBase<any>) {
-  const nodes = store.get();
+export function mountStore (store: StoreBase<any>) {
+  store.count++;
+}
 
-  if (nodes.length > 0) {
-    for (const node of nodes) {
-      cancelByNode(node);
+export function unmountStore (store: StoreBase<any>) {
+  if (--store.count === 0) {
+    const nodes = store.get();
+
+    if (nodes.length > 0) {
+      for (const node of nodes) {
+        cancelByNode(node);
+      }
+
+      store.set([]);
     }
-
-    store.set([]);
   }
 }

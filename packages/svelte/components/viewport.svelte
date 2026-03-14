@@ -1,14 +1,15 @@
 <script>
-  import { onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
 
-  const { store, resetStore } = $props()
-  const { nodes } = store
+  const { store } = $props()
 
-  onDestroy(() => {
-    resetStore(store)
-  })
+  let nodes = $state(store.nodes)
+
+  onMount(() => store.sub((value) => {
+    nodes = value
+  }))
 </script>
 
-{#each $nodes as node (node.key)}
+{#each nodes as node (node.key)}
   <node.component {...node.props}/>
 {/each}

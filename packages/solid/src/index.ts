@@ -1,5 +1,5 @@
-import { renderToPromise, resetStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
-import { createComponent, createSignal, For, onCleanup, type Component, type JSXElement } from 'solid-js';
+import { mountStore, renderToPromise, unmountStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import { createComponent, createSignal, For, onCleanup, onMount, type Component, type JSXElement } from 'solid-js';
 
 export { isCancelError, type PromiseResolvers } from '@flow-render/shared';
 
@@ -9,6 +9,7 @@ type Node = () => JSXElement;
 
 class Store<T> implements StoreBase<T> {
   signal = createSignal<T[]>([]);
+  count = 0;
 
   get () {
     return this.signal[0]();
@@ -30,8 +31,12 @@ export function createRenderer (): [render: RenderFunction, Viewport: Component]
     },
 
     function Viewport () {
+      onMount(() => {
+        mountStore(store);
+      });
+
       onCleanup(() => {
-        resetStore(store);
+        unmountStore(store);
       });
 
       return createComponent(For, {

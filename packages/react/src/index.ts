@@ -1,4 +1,4 @@
-import { renderToPromise, resetStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import { mountStore, renderToPromise, unmountStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
 import {
   createElement,
   useEffect,
@@ -16,6 +16,7 @@ export type RenderFunction = <P extends object, V = ResolveValue<P>> (type: Comp
 class Store<T> implements StoreBase<T> {
   fns = new Set<() => void>();
   nodes: T[] = [];
+  count = 0;
 
   sub = (fn: () => void) => {
     this.fns.add(fn);
@@ -40,7 +41,6 @@ export function createRenderer (): [render: RenderFunction, Viewport: FunctionCo
   const store = new Store<ReactElement>();
 
   let keyCount = 0;
-  let destroyed = false;
 
   return [
     function render (type, propsOrAdapter?) {
@@ -55,16 +55,12 @@ export function createRenderer (): [render: RenderFunction, Viewport: FunctionCo
 
     function Viewport () {
       useEffect(() => {
-        destroyed = false;
+        mountStore(store);
 
         return () => {
-          destroyed = true;
-
           // Delay reset to avoid React 18+ StrictMode's fake mount→cleanup→mount cycle
           queueMicrotask(() => {
-            if (destroyed) {
-              resetStore(store);
-            }
+            unmountStore(store);
           });
         };
       }, []);
