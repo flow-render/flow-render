@@ -7,6 +7,9 @@
     "outDir": "dist",
     "moduleResolution": "bundler",
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "paths": {
+      "@flow-render/shared": ["./packages/shared/src/index.ts"]
+    }
   }
 }
