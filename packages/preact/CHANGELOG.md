@@ -1,5 +1,11 @@
 # @flow-render/preact
 
+## 0.3.0
+
+### Minor Changes
+
+- Add `exitDelay` option for exit animation support
+
 ## 0.2.0
 
 ### Minor Changes
