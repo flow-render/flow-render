@@ -1,8 +1,16 @@
-import { mountStore, renderToPromise, unmountStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import {
+  getKey,
+  mountStore,
+  renderToPromise,
+  unmountStore,
+  type RenderArgs,
+  type ResolveValue,
+  type StoreBase,
+} from '@flow-render/shared';
 import { h, type ComponentType, type FunctionComponent, type VNode } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
-export { isCancelError, type PromiseResolvers } from '@flow-render/shared';
+export { isCancelError, type PromiseResolvers, type RenderOptions } from '@flow-render/shared';
 
 export type RenderFunction = <P extends object, V = ResolveValue<P>> (type: ComponentType<P>, ...props: RenderArgs<P, V>) => Promise<V>;
 
@@ -37,17 +45,20 @@ class Store<T> implements StoreBase<T> {
 export function createRenderer (): [render: RenderFunction, Viewport: FunctionComponent] {
   const store = new Store<VNode<any>>();
 
-  let keyCount = 0;
-
   return [
-    function render (type, propsOrAdapter?) {
-      return renderToPromise(store, propsOrAdapter, (props) => {
-        // @ts-expect-error Keyed
-        // @see https://preactjs.com/tutorial/08-keys/
-        props.key = keyCount++;
+    function render (type, propsOrAdapter?, options?) {
+      return renderToPromise(
+        store,
+        propsOrAdapter,
+        (props) => {
+          // @ts-expect-error Keyed
+          // @see https://preactjs.com/tutorial/08-keys/
+          props.key = getKey();
 
-        return h(type, props);
-      });
+          return h(type, props);
+        },
+        options,
+      );
     },
 
     function Viewport () {

@@ -1,4 +1,4 @@
-import type { OmitResolvers, PromiseResolvers, PropsAdapter, ResolveValue } from '@flow-render/shared';
+import type { OmitResolvers, PromiseResolvers, PropsAdapter, RenderOptions, ResolveValue } from '@flow-render/shared';
 import type { ComponentPublicInstance, VNode, VNodeArrayChildren } from 'vue';
 
 export type RenderArgs<
@@ -10,9 +10,9 @@ export type RenderArgs<
 > =
   Props extends PromiseResolvers<any>
     ? {} extends UserProps
-      ? [props?: null | Adapter | UserProps]
-      : [props: Adapter | UserProps]
-    : [props: Adapter];
+      ? [props?: null | Adapter | UserProps, options?: RenderOptions]
+      : [props: Adapter | UserProps, options?: RenderOptions]
+    : [props: Adapter, options?: RenderOptions];
 
 type ComponentProps<T> = T extends Record<keyof ComponentPublicInstance, any>
   ? T['$props'] & { children?: RawChildren | T['$slots'] }

@@ -1,11 +1,11 @@
-import { renderToPromise, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import { getKey, renderToPromise, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
 import { mountStore, unmountStore } from '@flow-render/shared';
 import type { Component } from 'svelte';
 // Since Svelte does not provide a stable component runtime API,
-// Viewport need to be implemented using `.svelte` files.
+// Viewport needs to be implemented using `.svelte` files.
 import viewportRender from '../components/viewport.svelte';
 
-export { isCancelError, type PromiseResolvers } from '@flow-render/shared';
+export { isCancelError, type PromiseResolvers, type RenderOptions } from '@flow-render/shared';
 
 export type RenderFunction = <P extends object, V = ResolveValue<P>> (type: Component<P, any>, ...props: RenderArgs<P, V>) => Promise<V>;
 
@@ -46,18 +46,21 @@ class Store<T> implements StoreBase<T> {
 export function createRenderer (): [render: RenderFunction, Viewport: Component<any, any>] {
   const store = new Store<Node>();
 
-  let keyCount = 0;
-
   return [
-    function render (type, propsOrAdapter?) {
-      return renderToPromise(store, propsOrAdapter, (props) => {
-        return {
+    function render (type, propsOrAdapter?, options?) {
+      return renderToPromise(
+        store,
+        propsOrAdapter,
+        (props) => {
+          return {
           // @see https://svelte.dev/docs/svelte/each#Keyed-each-blocks
-          key: keyCount++,
-          component: type,
-          props,
-        };
-      });
+            key: getKey(),
+            component: type,
+            props,
+          };
+        },
+        options,
+      );
     },
 
     function Viewport (anchor) {

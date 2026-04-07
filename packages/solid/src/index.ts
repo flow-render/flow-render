@@ -1,7 +1,7 @@
 import { mountStore, renderToPromise, unmountStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
 import { createComponent, createSignal, For, onCleanup, onMount, type Component, type JSXElement } from 'solid-js';
 
-export { isCancelError, type PromiseResolvers } from '@flow-render/shared';
+export { isCancelError, type PromiseResolvers, type RenderOptions } from '@flow-render/shared';
 
 export type RenderFunction = <P extends object, V = ResolveValue<P>> (type: Component<P>, ...props: RenderArgs<P, V>) => Promise<V>;
 
@@ -24,10 +24,13 @@ export function createRenderer (): [render: RenderFunction, Viewport: Component]
   const store = new Store<Node>();
 
   return [
-    function render (type, propsOrAdapter?) {
-      return renderToPromise(store, propsOrAdapter, (props) => {
-        return () => createComponent(type, props);
-      });
+    function render (type, propsOrAdapter?, options?) {
+      return renderToPromise(
+        store,
+        propsOrAdapter,
+        (props) => () => createComponent(type, props),
+        options,
+      );
     },
 
     function Viewport () {

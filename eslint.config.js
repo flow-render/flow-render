@@ -5,6 +5,7 @@ export default defineConfig({
     {
       rules: {
         'no-plusplus': 'off',
+        'typescript/max-params': 'off',
       },
     },
   ],

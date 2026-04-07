@@ -1,4 +1,12 @@
-import { mountStore, renderToPromise, unmountStore, type RenderArgs, type ResolveValue, type StoreBase } from '@flow-render/shared';
+import {
+  getKey,
+  mountStore,
+  renderToPromise,
+  unmountStore,
+  type RenderArgs,
+  type ResolveValue,
+  type StoreBase,
+} from '@flow-render/shared';
 import {
   createElement,
   useEffect,
@@ -9,7 +17,7 @@ import {
   type ReactElement,
 } from 'react';
 
-export { isCancelError, type PromiseResolvers } from '@flow-render/shared';
+export { isCancelError, type PromiseResolvers, type RenderOptions } from '@flow-render/shared';
 
 export type RenderFunction = <P extends object, V = ResolveValue<P>> (type: ComponentType<P>, ...props: RenderArgs<P, V>) => Promise<V>;
 
@@ -40,17 +48,20 @@ class Store<T> implements StoreBase<T> {
 export function createRenderer (): [render: RenderFunction, Viewport: FunctionComponent] {
   const store = new Store<ReactElement>();
 
-  let keyCount = 0;
-
   return [
-    function render (type, propsOrAdapter?) {
-      return renderToPromise(store, propsOrAdapter, (props) => {
-        // @ts-expect-error Keyed
-        // @see https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key
-        props.key = keyCount++;
+    function render (type, propsOrAdapter?, options?) {
+      return renderToPromise(
+        store,
+        propsOrAdapter,
+        (props) => {
+          // @ts-expect-error Keyed
+          // @see https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key
+          props.key = getKey();
 
-        return createElement(type, props);
-      });
+          return createElement(type, props);
+        },
+        options,
+      );
     },
 
     function Viewport () {

@@ -15,7 +15,8 @@ export default defineConfig({
     ...testConfig,
 
     /**
-     * Solid FAIL
+     * FIXME: Running solid tests using the project configuration failed.
+     * ---
      * Error: Client-only API called on the server side. Run client-only code in onMount, or conditionally run client-only component with <Show>.
      */
     projects: ['packages/*', '!packages/solid'],

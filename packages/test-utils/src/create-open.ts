@@ -1,4 +1,4 @@
-import type { PromiseResolvers, PropsAdapter, RenderArgs } from '@flow-render/shared';
+import type { PromiseResolvers, PropsAdapter, RenderArgs, RenderOptions } from '@flow-render/shared';
 import { screen } from '@testing-library/dom';
 import { userEvent } from '@testing-library/user-event';
 import { createId } from './create-id';
@@ -18,6 +18,7 @@ export interface OpenOptions {
   component?: unknown;
   adapter?: PropsAdapter<PromiseResolvers<string>>;
   children?: unknown;
+  renderOptions?: RenderOptions;
 }
 
 export interface ComponentPropsBase {
@@ -63,6 +64,7 @@ export function createOpen (initOptions: CreateOpenOptions) {
             };
           }
           : base,
+        options.renderOptions,
       );
     });
 

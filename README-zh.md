@@ -232,6 +232,21 @@ function App () {
 
 ---
 
+## 退出动画支持
+
+默认情况下，调用 `resolve / reject` 时组件节点会立刻从 DOM 中移除，导致退出动画无法播放。通过 `exitDelay` 参数可以延迟销毁，让退出动画完整播放。
+
+```tsx
+const result = await render(Component, null, {
+  exitDelay: 350
+})
+```
+
+- `exitDelay` 只延迟 DOM 移除，不延迟 Promise 的 resolve/reject
+- 延迟时长并不一定能表现的和动画实际时长完全相同，如果动画时长会动态变化，建议设置一个足够大的缓冲值（如动画时长 + 50ms）
+
+---
+
 ## 取消渲染
 
 ### 手动取消渲染

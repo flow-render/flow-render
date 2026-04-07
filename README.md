@@ -243,6 +243,23 @@ This encapsulates the rendering capability inside the library, providing a more 
 
 ---
 
+## Exit Animation Support
+
+By default, the component node is immediately removed from the DOM when `resolve` / `reject` is called, preventing exit
+animations from playing. Use the `exitDelay` option to delay the removal and allow exit animations to complete.
+
+```tsx
+const result = await render(Component, null, {
+  exitDelay: 350
+})
+```
+
+- `exitDelay` only delays DOM removal, not the Promise's resolve/reject
+- The delay duration may not exactly match the actual animation duration. If the animation duration changes dynamically,
+  it's recommended to set a large enough buffer value (e.g., animation duration + 50ms)
+
+---
+
 ## Cancelling Rendering
 
 ### Manual Cancellation

@@ -9,13 +9,17 @@ export type RenderArgs<
 > =
   Props extends PromiseResolvers<any>
     ? {} extends UserProps
-      ? [props?: Adapter | UserProps]
-      : [props: Adapter | UserProps]
-    : [props: Adapter];
+      ? [props?: null | Adapter | UserProps, options?: RenderOptions]
+      : [props: Adapter | UserProps, options?: RenderOptions]
+    : [props: Adapter, options?: RenderOptions];
 
 export type PropsAdapter<P extends object, V = ResolveValue<P>> = (resolve: ResolveFunction<V>, reject: (reason?: any) => void) => P;
 
 export type OmitResolvers<P extends object> = Omit<P, keyof PromiseResolvers>;
+
+export interface RenderOptions {
+  exitDelay?: number;
+}
 
 export interface PromiseResolvers<V = unknown> {
   readonly resolve: ResolveFunction<V>;

@@ -26,6 +26,12 @@ function getError (a: OpenFlowCase) {
   return a.promise.catch((error) => error);
 }
 
+function sleep (ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 export function testRunner (framework: string, options: TestRunnerOptions) {
   beforeEach(() => {
     options.cleanup();
@@ -39,9 +45,7 @@ export function testRunner (framework: string, options: TestRunnerOptions) {
   test('should support calling render before Viewport is mounted', async () => {
     const a = await open({});
 
-    await new Promise((resolve) => {
-      setTimeout(resolve, 100);
-    });
+    await sleep(100);
 
     options.render(options.defaultViewport);
 
@@ -147,6 +151,23 @@ export function testRunner (framework: string, options: TestRunnerOptions) {
       expect(rejectedReason).toBe(c.cancelId);
       expect(await getError(c)).toBe(rejectedReason);
     });
+  });
+
+  test('Exit delay', async () => {
+    options.render(options.defaultViewport);
+
+    const a = await open({
+      renderOptions: {
+        exitDelay: 1000,
+      },
+    });
+
+    expect(a.container()).toBeInTheDocument();
+    await a.clickYes();
+    await sleep(500);
+    expect(a.container()).toBeInTheDocument();
+    await sleep(500);
+    expect(a.container()).toBeNull();
   });
 
   test('should support rendering multiple instances simultaneously', async () => {
