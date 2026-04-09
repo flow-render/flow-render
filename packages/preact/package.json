@@ -14,6 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/flow-render/flow-render.git"
   },
+  "license": "MIT",
   "author": "shixianqin",
   "sideEffects": false,
   "type": "module",
